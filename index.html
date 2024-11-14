@@ -1,0 +1,495 @@
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <h1><x>Anonymous IPTV Channel</x></h1>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+  </button>
+<body oncontextmenu="return false">
+
+    <!-- Video Player -->
+    <video id="iptvPlayer" width="100%" controls preload="auto" autoplay></video>
+    
+    
+
+    <!-- Button to Toggle Channel Group List -->
+    <button id="toggleBtn" class="btn"><k><i class="fas fa-tv"><k></i></button> 
+
+    <!-- Popup Channel Group List -->
+    <div id="channelPopup" class="popup">
+        <div id="channelList">
+            <!-- Channel Group List will be injected here -->
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="app.js"></script>
+</body>
+<div contenteditable="false">
+    This element cannot be edited in DevTools.
+  </div>
+<style>
+/* Basic Styling */
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #000000;
+}
+
+video {
+    margin-top: 0px;
+    position: relative;
+    outline: none;
+    border: 15px solid #333;
+    box-shadow: 0 0 10px 15px rgb(3, 251, 255,.4);
+    width: 700px;
+    border-radius: 50px;
+    max-width: 1280px;
+}
+
+
+/* Button Styling */
+.btn {
+    margin-top: 1px;
+    position: fixed;
+    padding: 10px 20px;
+    font-size: 20px;
+    cursor: pointer;
+    background-color: #ff00a2;
+    color: rgb(7, 10, 0);
+    border: none;
+    border-radius: 20px;
+    left: 20px;
+    bottom: 72vh;
+    animation: fade 7s infinite;
+}
+    
+    @keyframes fade {
+      0%   {center: 0px; center: 0px; background: rgb(0, 0, 0);}
+      25%  {center: 0px; center: 100px; background: rgb(195, 0, 255);}
+      50%  {center: 100px; center: 100px; background: rgb(237, 9, 9);}
+      75%  {center: 100px; center: 0px; background: green;}
+      100% {center: 0px; center: 0px; background: rgb(6, 183, 214);}
+      150% {center: 0px; center: 0px; background: rgb(242, 0, 255);}
+    }    
+
+      h1 {
+        font-size: 50px;
+        animation: shine 7s infinite;
+
+      } 
+
+.btn:hover {
+    background-color: #0056b3;
+    transform: translateY(-5px)
+      
+
+}
+
+/* Popup Styling */
+.popup {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0%;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(0, 0, 0);
+    z-index: 1;
+    justify-content: center;
+    align-items: center;
+    background: transparent;
+}
+
+#channelList {
+    background-color: rgb(145, 121, 144);
+    padding: 20px;
+    border-radius: 5px;
+    max-height: 80%;
+    overflow-y: scroll;
+    position: absolute;
+    left: 10px;
+    top: 10vh;
+    background: transparent;
+    color: #01aaff;
+
+    
+}
+
+.channel-item {
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #ddd;
+    transition: background-color 0.2s;
+    font-size: medium;
+}
+
+.channel-item:hover {
+    background-color: #aaa50e7e;
+    transform: translateY(-1px);
+}
+.popup close {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  max-width: 35px;
+  cursor: pointer;
+  filter: invert(1);
+}
+.popup.show {
+    display: flex;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+</style>
+<style>  
+    o {
+      width: 100px;
+      height: 100px;
+      background: red;
+      position: relative;
+      animation: fade 5s infinite;
+    }
+    
+    @keyframes fade {
+      0%   {center: 0px; center: 0px; background: red;}
+      25%  {center: 0px; center: 100px; background: blue;}
+      50%  {center: 100px; center: 100px; background: yellow;}
+      75%  {center: 100px; center: 0px; background: green;}
+      100% {center: 0px; center: 0px; background: red;}
+    }
+    </style>
+    <style>
+        x  {
+          position: static;
+          top: 0%;
+          left: 90vh;
+          bottom: 0%;
+          center: 50%;
+          transform: translate(-50%, -50%);
+          padding: 1px 0px;
+          color: #fff;
+          background: linear-gradient(to right, #c9c0c0 0, #ffffff 10%, #6d786d 20%);
+          background-position: 0;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          animation: shine 2s infinite linear;
+          animation-fill-mode: forwards;
+          -webkit-text-size-adjust: none;
+          font-weight: 560;
+          font-size: 40px;
+          text-decoration: none;
+          white-space: nowrap;
+          font-family: "Poppins", sans-serif;
+        }
+        @-moz-keyframes shine {
+          0% {
+            background-position: 0;
+          }
+          60% {
+            background-position: 200px;
+          }
+          100% {
+            background-position: 600px;
+          }
+        }
+        @-webkit-keyframes shine {
+          0% {
+            background-position: 0;
+          }
+          60% {
+            background-position: 500px;
+          }
+          100% {
+            background-position: 600px;
+          }
+        }
+        @-o-keyframes shine {
+          0% {
+            background-position: 0;
+          }
+          60% {
+            background-position: 300px;
+          }
+          100% {
+            background-position: 600px;
+          }
+        }
+        @keyframes shine {
+          0% {
+            background-position: 0;
+          }
+          60% {
+            background-position: 500px;
+          }
+          100% {
+            background-position: 720px;
+          }
+        }
+        
+        </style>
+        <style>
+
+            /* Button styling */
+    k {
+  background-color: #000208;
+  border: none;
+  padding: 5px 10px;
+  color: rgb(3, 251, 255);
+  font-size: 20px;
+  cursor: pointer;
+  border-radius: 60%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.1s ease;
+}
+
+/* Icon styling */
+.btn-icon i {
+  font-size: 24px;
+  transition: fade 0.5s ease; /* Smooth rotation and scaling */
+}
+</style> 
+<script>
+
+$(document).ready(function() {
+    const videoElement = document.getElementById('iptvPlayer');
+    const toggleBtn = $('#toggleBtn');
+    const popup = $('#channelPopup');
+    const channelList = $('#channelList');
+
+    // Example M3U8 playlist with channels
+    const channels = [
+        { name: 'Tv 5', stream: 'https://qp-pldt-live-grp-02-prod.akamaized.net/out/u/tv5_qp.m3u8' },
+        { name: 'Nhers Telivision', stream: 'https://glb.bozztv.com/glb/ssh101/jomarhost/tracks-v1a1/mono.m3u8' },
+        { name: 'A2z', stream: 'http://jmrk.xyz:3050/live/elonza_joyner@yahoo.com/gmJ2dxUykT/558786.m3u8' },
+        { name: 'Cine MO', stream: 'https://cinemo-abscbn-ono.amagi.tv/playlist.m3u8' },
+        { name: 'Cine One', stream: 'https://cinemaone-abscbn-ono.amagi.tv/index.m3u8' },
+        { name: 'Buko Channel', stream: 'http://jmrk.xyz:3050/live/elonza_joyner@yahoo.com/gmJ2dxUykT/558780.m3u8' },
+        { name: 'K-Plus Channel', stream: 'http://jmrk.xyz:3050/live/elonza_joyner@yahoo.com/gmJ2dxUykT/558764.m3u8' },
+        { name: 'Wild Earth', stream: 'https://wildearth-adsfree-ono.amagi.tv/playlist.m3u8' },
+        { name: 'Kbs World', stream: 'https://kbsworld-ott.akamaized.net/hls/live/2002341/kbsworld/master.m3u8' },
+        { name: 'Hunt Channel', stream: 'https://1111296894.rsc.cdn77.org/LS-ATL-56868-1/index.m3u8' },
+        { name: 'Hits HD', stream: 'http://jmrk.xyz:3050/live/elonza_joyner@yahoo.com/gmJ2dxUykT/558765.m3u8' },
+        { name: 'One Sports Plus', stream: 'http://jmrk.xyz:3050/live/elonza_joyner@yahoo.com/gmJ2dxUykT/558758.m3u8' },
+        { name: 'Rush PBA', stream: 'http://jmrk.xyz:3050/live/elonza_joyner@yahoo.com/gmJ2dxUykT/558744.m3u8' },
+        { name: 'Premier Sports', stream: 'http://jmrk.xyz:3050/live/elonza_joyner@yahoo.com/gmJ2dxUykT/558755.m3u8' },
+        { name: 'UAAP Varsity', stream: 'http://jmrk.xyz:3050/live/elonza_joyner@yahoo.com/gmJ2dxUykT/558745.m3u8' },
+        { name: 'Action Flix HD', stream: 'http://jmrk.xyz:3050/live/elonza_joyner@yahoo.com/gmJ2dxUykT/558748.m3u8' },
+        { name: 'Cine Life', stream: 'https://magnolia-cinelife.amagi.tv/hls/amagi_hls_data_magnoliaA-cinelife-oando/CDN/playlist.m3u8' },
+        { name: 'Flix Channel', stream: 'http://jmrk.xyz:3050/live/elonza_joyner@yahoo.com/gmJ2dxUykT/419285.m3u8' },
+        { name: 'HBO Family', stream: 'http://jmrk.xyz:3050/live/elonza_joyner@yahoo.com/gmJ2dxUykT/418060.m3u8' },
+        { name: 'MovieSphere Canada', stream: 'https://apollo.production-public.tubi.io/live/ac-moviesphere-canada2.m3u8' },
+        { name: 'HBO', stream: 'http://jmrk.xyz:3050/live/elonza_joyner@yahoo.com/gmJ2dxUykT/568124.m3u8' },
+        { name: 'HBO 2', stream: 'http://jmrk.xyz:3050/live/elonza_joyner@yahoo.com/gmJ2dxUykT/418058.m3u8' },
+        { name: 'Lifetime Network', stream: 'http://jmrk.xyz:3050/live/elonza_joyner@yahoo.com/gmJ2dxUykT/417990.m3u8' },
+        { name: 'HBO OriginalMax 1', stream: 'http://jmrk.xyz:3050/live/elonza_joyner@yahoo.com/gmJ2dxUykT/567009.m3u8' },
+        { name: 'HBO OriginalMax 2', stream: 'http://jmrk.xyz:3050/live/elonza_joyner@yahoo.com/gmJ2dxUykT/567011.m3u8' },
+        { name: 'HBO OriginalMax 3', stream: 'http://jmrk.xyz:3050/live/elonza_joyner@yahoo.com/gmJ2dxUykT/567012.m3u8' },
+        { name: 'HBO OriginalMax 4', stream: 'http://jmrk.xyz:3050/live/elonza_joyner@yahoo.com/gmJ2dxUykT/567015.m3u8' },
+        { name: 'Cinemax MovieMax', stream: 'http://jmrk.xyz:3050/live/elonza_joyner@yahoo.com/gmJ2dxUykT/418082.m3u8' },
+        { name: 'Cinemax Thriller', stream: 'http://jmrk.xyz:3050/live/elonza_joyner@yahoo.com/gmJ2dxUykT/418105.m3u8' },
+        { name: 'RedBox Movie', stream: 'https://spotlight-redbox.amagi.tv/playlist.m3u8' },
+        { name: 'Discovery HD', stream: 'https://dplus.gammacdn.workers.dev/videos/95.m3u8' },
+        { name: 'Animal Planet', stream: 'https://dplus.gammacdn.workers.dev/videos/99.m3u8' },
+        { name: 'Wild Planet', stream: 'https://d3c7duantorcb1.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-jpfvel38m2ce0-prod/amgwildplanetuk/playlist.m3u8' },
+        { name: 'ScreamBox Tv', stream: 'https://cdn-uw2-prod.tsv2.amagi.tv/linear/amg01201-cinedigmenterta-bloodydisgus-cineverse/playlist.m3u8' },
+        { name: 'American IDOL', stream: 'https://d2h3esqi6ab3e7.cloudfront.net/index.m3u8' },
+        { name: 'AFV Family', stream: 'https://futuretoday-afv-family-2-be.samsung.wurl.tv/playlist.m3u8' },
+        { name: 'AFV Family', stream: 'https://linear-12.frequency.stream/dist/plex/12/hls/master/playlist.m3u8' },
+        { name: '24 Hr Movies', stream: 'https://d1b5mlajbmvkjv.cloudfront.net/v1/master/9d062541f2ff39b5c0f48b743c6411d25f62fc25/UDU-DistroTV/145.m3u8' },
+        { name: 'MovieSphere', stream: 'https://moviesphereuk-samsunguk.amagi.tv/playlist.m3u8' },
+        { name: 'OutSphere', stream: 'https://livetv-fa.tubi.video/outersphere2/playlist.m3u8' },
+        { name: 'DreamWorks 2', stream: 'https://samuelgoldwyn-films-1-us.roku.wurl.tv/playlist.m3u8' },
+        { name: 'Rakuten Movies', stream: 'https://rakuten-actionmovies-1-eu.rakuten.wurl.tv/2000.m3u8' },
+        { name: 'Rakuten TV', stream: 'https://rakuten-family-1-eu.rakuten.wurl.tv/2000.m3u8' },
+        { name: 'KIDDO', stream: 'https://streams2.sofast.tv/ptnr-stirr/genre-Education/lang-English/ctgr-Kids/title-KIDDO-ENG/sofastplayout/8258122f-b4c0-416b-a2db-8407847f0c3c_1000015692_HLS/master.m3u8' },
+        { name: 'OutDoor Channel', stream: 'https://cdn-apse1-prod.tsv2.amagi.tv/linear/amg00718-outdoorchannela-outdoortvnz-samsungnz/playlist.m3u8' },
+        { name: 'National Geographic', stream: 'http://jmrk.xyz:3050/live/elonza_joyner@yahoo.com/gmJ2dxUykT/508099.m3u8' },
+        { name: 'Nat Geo Wild', stream: 'http://jmrk.xyz:3050/live/elonza_joyner@yahoo.com/gmJ2dxUykT/508096.m3u8' },
+        { name: 'So Real TV', stream: 'https://cdn-uw2-prod.tsv2.amagi.tv/linear/amg01201-cinedigmenterta-soreal-cineverse/playlist.m3u8' },
+        { name: 'Cartoon Network', stream: 'http://jmrk.xyz:3050/live/elonza_joyner@yahoo.com/gmJ2dxUykT/419270.m3u8' },
+        { name: 'Cartoon Network HD', stream: 'http://jmrk.xyz:3050/live/elonza_joyner@yahoo.com/gmJ2dxUykT/418419.m3u8' },
+        { name: 'T N T', stream: 'http://jmrk.xyz:3050/live/elonza_joyner@yahoo.com/gmJ2dxUykT/598102.m3u8' },
+        { name: 'CineMax', stream: 'http://jmrk.xyz:3050/live/elonza_joyner@yahoo.com/gmJ2dxUykT/418077.m3u8' },
+        { name: 'CineMax 5 STARMAX', stream: 'http://jmrk.xyz:3050/live/elonza_joyner@yahoo.com/gmJ2dxUykT/418081.m3u8' },
+        { name: 'CineMax ActionMax', stream: 'http://jmrk.xyz:3050/live/elonza_joyner@yahoo.com/gmJ2dxUykT/418104.m3u8' },
+        { name: 'N B A TV', stream: 'http://jmrk.xyz:3050/live/elonza_joyner@yahoo.com/gmJ2dxUykT/598100.m3u8' },
+        { name: 'N B A ESPN', stream: 'http://jmrk.xyz:3050/live/elonza_joyner@yahoo.com/gmJ2dxUykT/598099.m3u8' },
+        { name: 'Cartoon Network Asia', stream: 'https://cdn1.skygo.mn/live/disk1/Cartoon_Network/HLS-FTA/Cartoon_Network.m3u8' },
+        { name: 'K-Movies', stream: 'https://7732c5436342497882363a8cd14ceff4.mediatailor.us-east-1.amazonaws.com/v1/master/04fd913bb278d8775298c26fdca9d9841f37601f/Plex_NewMovies/playlist.m3u8' },
+        { name: 'SkyCinema Action', stream: 'https://shls-live-ak.akamaized.net/out/v1/90143f040feb40589d18c57863d9e829/index.m3u8' },
+        { name: 'Just For Laugh GaG', stream: 'https://lte.wiseplayout.com/WiseM3U8_9/master.m3u8' },
+        { name: 'Paranormal Files', stream: 'https://cdn-uw2-prod.tsv2.amagi.tv/linear/amg00090-blueantllc-hanuttvuk-lggb/playlist.m3u8' },
+        { name: 'Sony Movies', stream: 'https://cdn.klowdtv.net/803B48A/n1.klowdtv.net/live1/smc_720p/playlist.m3u8' },
+        { name: 'Cartoonito', stream: 'https://cdn1.skygo.mn/live/disk1/Boomerang/HLS-FTA/Boomerang.m3u8' },
+        { name: 'Movie Thriller', stream: 'https://amc-rushbyamc-1-us.vizio.wurl.tv/playlist.m3u8' },
+        { name: 'Action Movies 2', stream: 'https://bec-action-1-us.tcl.wurl.tv/playlist.m3u8' },
+        { name: 'Bein Sports', stream: 'https://amg01334-beinsportsllc-beinxtra-localnow-kcy6r.amagi.tv/playlist.m3u8' },
+        { name: 'Anime TV', stream: 'https://stmv1.srvif.com/animetv/animetv/playlist.m3u8' },
+        { name: 'Kung Fu OLD', stream: 'https://lte.wiseplayout.com/WiseM3U8_10/master.m3u8' },
+        { name: 'M2 Movies', stream: 'https://dvrfl06.tulix.tv/astv/astv-mnetmovies2/index.m3u8' },
+        { name: 'M3 Movies', stream: 'https://dvrfl06.tulix.tv/astv/astv-mnetmovies3/index.m3u8' },
+        { name: 'M4 Movies', stream: 'https://dvrfl06.tulix.tv/astv/astv-mnetmovies4/index.m3u8' },
+        { name: 'Galaxy Premium Movies', stream: 'https://cdn09jtedge.indihometv.com/joss/133/galaxypremium/index.m3u8' },
+        { name: 'Amazing Dicoveries', stream: 'https://uni01rtmp.tulix.tv/amazingdtv/amazingdtv/playlist.m3u8' },
+        { name: 'Scream Box Tv2', stream: 'https://bloodydisgusting-tcl.amagi.tv/playlist.m3u8' },
+        { name: 'Best Action Movies', stream: 'https://lte.wiseplayout.com/WiseM3U8_14/master.m3u8' },
+        { name: 'Best Thriller Movies', stream: 'https://lte.wiseplayout.com/WiseM3U8_17/master.m3u8' },
+        { name: 'Billiard Tournament', stream: 'https://lte.wiseplayout.com/WiseM3U8_18/master.m3u8' },
+        { name: 'HBO OriginalMax 5', stream: 'http://jmrk.xyz:3050/live/elonza_joyner@yahoo.com/gmJ2dxUykT/567015.m3u8' },
+        { name: 'Escape TV', stream: 'https://lte.wiseplayout.com/WiseM3U8_7/master.m3u8' },
+        { name: 'Wrestling Fight', stream: 'https://lte.wiseplayout.com/WiseM3U8_23/master.m3u8' },
+        { name: 'The Guardian', stream: 'https://rakuten-guardian-1-ie.samsung.wurl.tv/playlist.m3u8' },
+        { name: 'Travel Channel', stream: 'https://dplus.gammacdn.workers.dev/videos/110.m3u8' },
+        { name: 'Rakuten Family Tv', stream: 'https://rakuten-family-1-eu.rakuten.wurl.tv/2000.m3u8' },
+        { name: 'HBO OriginalMax 6', stream: 'http://jmrk.xyz:3050/live/elonza_joyner@yahoo.com/gmJ2dxUykT/567019.m3u8' },
+        { name: 'HBO OriginalMax 7', stream: 'http://jmrk.xyz:3050/live/elonza_joyner@yahoo.com/gmJ2dxUykT/567020.m3u8' },
+        { name: 'Fail Army', stream: 'https://failarmy-international-se.samsung.wurl.tv/playlist.m3u8' },
+        { name: 'ABN Bibble Movies', stream: 'https://mediaserver.abnvideos.com/streams/abnbiblemovies.m3u8' },
+        { name: 'Americas Funniest Video', stream: 'https://linear-12.frequency.stream/dist/plex/12/hls/master/playlist.m3u8' },
+        { name: 'HBO Comedy', stream: 'http://jmrk.xyz:3050/live/elonza_joyner@yahoo.com/gmJ2dxUykT/418059.m3u8' },
+        { name: 'HBO Signature', stream: 'http://jmrk.xyz:3050/live/elonza_joyner@yahoo.com/gmJ2dxUykT/418061.m3u8' },
+        { name: 'HBO Zone', stream: 'http://jmrk.xyz:3050/live/elonza_joyner@yahoo.com/gmJ2dxUykT/418092.m3u8' },
+        { name: 'Caught In Providence', stream: 'https://livetv-fa.tubi.video/caught-in-providence2/playlist.m3u8' },
+        { name: 'Court Tv', stream: 'https://apollo.production-public.tubi.io/live/ac-court-tv.m3u8' },
+        { name: 'Nosey Us', stream: 'https://amg00514-noseybaxterllc-nosey-cineverse-hvu5a.amagi.tv/playlist/amg00514-noseybaxterllc-nosey-cineverse/playlist.m3u8' },
+        { name: 'One Tv', stream: 'https://apollo.production-public.tubi.io/live/ac-tv-one.m3u8' },
+        { name: 'Deal or No Deal', stream: 'https://apollo.production-public.tubi.io/live/ac-deal-or-no-deal.m3u8' },
+        { name: 'Gordon Ramsy Hellkitchen', stream: 'https://apollo.production-public.tubi.io/live/ac-gordon-ramsey.m3u8' },
+        { name: 'Bon Apetit', stream: 'https://bonappetit-samsung.amagi.tv/playlist.m3u8' },
+        { name: 'Anger Management', stream: 'https://apollo.production-public.tubi.io/live/ac-anger-management2.m3u8' },
+        { name: 'Antiques RoadTrip', stream: 'https://aegis-cloudfront-1.tubi.video/35b865e3-cb8d-4d5b-9202-5490fce4477c/playlist.m3u8' },
+        { name: 'Explore Tv', stream: 'https://aegis-cloudfront-1.tubi.video/8d2bf7b1-0e93-405f-8c15-ac0756d05f66/playlist.m3u8' },
+        { name: '4K Travel', stream: 'https://streams2.sofast.tv/ptnr-stirr/genre-Travel/lang-English/ctgr-Travel/title-4K-TRAVEL-TV-ENG/sofastplayout/33c31ac4-51fa-46ae-afd0-0d1fe5e60a80_0_HLS/master.m3u8' },
+        { name: 'American Picker', stream: 'https://apollo.production-public.tubi.io/live/ac-american-pickers.m3u8' },
+        { name: 'The Explorer', stream: 'https://lte.wiseplayout.com/WiseM3U8_22/master.m3u8' },
+        { name: 'OutDoor Channel', stream: 'https://cdn-apse1-prod.tsv2.amagi.tv/linear/amg00718-outdoorchannela-outdoortvnz-samsungnz/playlist.m3u8' },
+        { name: 'Pac12Insider', stream: 'https://pac12-vizio.amagi.tv/playlist.m3u8' },
+        { name: 'Boxing Arena', stream: 'https://apollo.production-public.tubi.io/live/ac-top-rank.m3u8' },
+        { name: 'Hunt Fish Tv', stream: 'https://lte.wiseplayout.com/WiseM3U8_2/master.m3u8' },
+        { name: 'Fear Factor', stream: 'https://apollo.production-public.tubi.io/live/ac-fear-factor.m3u8' },
+        { name: 'The Ring', stream: 'https://lte.wiseplayout.com/WiseM3U8_24/master.m3u8' },
+        { name: 'Ric Plus Tv', stream: 'https://lte.wiseplayout.com/WiseM3U8_32/master.m3u8' },
+        { name: 'Hi Yah', stream: 'https://apollo.production-public.tubi.io/live/ac-hi-yah.m3u8' },
+        { name: 'Asian Crush', stream: 'https://amg01201-cinedigmenterta-asiancrush-cineverse-x701o.amagi.tv/playlist/amg01201-cinedigmenterta-asiancrush-cineverse/playlist.m3u8' },
+        { name: 'Love Nature', stream: 'https://aegis-cloudfront-1.tubi.video/dc8bda97-ce9e-4091-b4e8-11254dea4da6/playlist.m3u8' },
+        { name: 'Alien Nation', stream: 'https://livetv-fa.tubi.video/alien-nation-canada/playlist.m3u8' },
+        { name: 'Old Case File', stream: 'https://apollo.production-public.tubi.io/live/ac-cold-case-files.m3u8' },
+        { name: 'Americas Got Talent', stream: 'https://dhkq1p9audihq.cloudfront.net/index.m3u8' },
+        { name: 'A N C HD', stream: 'https://ancglobal-abscbn-ono.amagi.tv/playlist720_p.m3u8' },
+        { name: 'C T G N Documentaries', stream: 'https://news.cgtn.com/resource/live/document/cgtn-doc.m3u8' },
+        { name: 'Ridiculous Tv Funny', stream: 'https://30a-tv.com/feeds/720p/63.m3u8' },
+        { name: 'Camera Smile TV', stream: 'https://bozztv.com/gusa/gusa-camerasmile/index.m3u8' },
+        { name: 'Catholic Mass', stream: 'https://catholictvhd-lh.akamaized.net/hls/live/2043390/CTVLiveHD/master.m3u8' },
+        { name: 'Judge Divorce Court', stream: 'https://amg00514-noseybaxterllc-realnosey-cineverse-tqbpv.amagi.tv/playlist/amg00514-noseybaxterllc-realnosey-cineverse/playlist.m3u8' },
+        { name: 'Steve Wilkos Nosey', stream: 'https://amg00514-noseybaxterllc-nosey-cineverse-hvu5a.amagi.tv/playlist/amg00514-noseybaxterllc-nosey-cineverse/playlist.m3u8' },
+        { name: 'Journey', stream: 'https://linear-291.frequency.stream/mt/ovationtv/291/hls/master/playlist.m3u8' },
+        { name: 'Wrestling', stream: 'https://cdn.klowdtv.net/803B48A/n1.klowdtv.net/live2/tna_720p/playlist.m3u8' },
+        { name: 'World Poker Games', stream: 'https://amg00218-wptenterprisesi-worldpokertour-klowdtv-5619e.amagi.tv/playlist/amg00218-wptenterprisesi-worldpokertour-klowdtv/playlist.m3u8' },
+        { name: 'Alien Nation 2', stream: 'https://livetv-fa.tubi.video/alien-nation/playlist.m3u8' },
+        { name: 'Alter Horror Movie', stream: 'https://livetv-fa.tubi.video/alter/playlist.m3u8' },
+        { name: 'Cheaters TV', stream: 'https://apollo.production-public.tubi.io/live/ac-cheaters.m3u8' },
+        { name: 'F B I Files', stream: 'https://apollo.production-public.tubi.io/live/ac-the-fbi-files.m3u8' },
+        { name: 'Horror Canada', stream: 'https://apollo.production-public.tubi.io/live/ac-filmrise-horror-canada.m3u8' },
+       
+
+
+
+
+    ];
+
+    const hls = new Hls({
+  maxBufferLength: 30, // Maximum length of the buffer (in seconds)
+  maxBufferSize: 100 * 1000 * 1000, // Maximum buffer size in bytes
+  startLevel: 3, // Automatic start level based on network conditions
+  capLevelToPlayerSize: true // Restrict the maximum bitrate based on the player size
+
+
+});
+
+const video = document.getElementById('video');
+if (Hls.isSupported()) {
+  hls.attachMedia(video);
+  hls.on(Hls.Events.MANIFEST_PARSED, function(event, data) {
+    console.log('Manifest parsed:', data);
+  });
+  hls.on(Hls.Events.ERROR, function(event, data) {
+    console.error('HLS.js error:', data);
+  });
+}
+    // Initialize HLS.js if supported
+    if (Hls.isSupported()) {
+        const hls = new Hls();
+        hls.attachMedia(videoElement);
+        hls.on(Hls.Events.MANIFEST_PARSED, function() {
+            console.log('Manifest parsed');
+        });
+    } else if (videoElement.canPlayType('application/vnd.apple.mpegurl')) {
+        videoElement.src = 'https://example.com/stream1.m3u8';  // Fallback for Safari
+    }
+
+    // Populate the channel list
+    channels.forEach(channel => {
+        const channelItem = $('<div class="channel-item"></div>')
+            .text(channel.name)
+            .click(function() {
+                loadChannel(channel.stream);
+                popup.removeClass('show');  // Close the popup
+            });
+        channelList.append(channelItem);
+    });
+
+    // Toggle channel list popup
+    toggleBtn.click(function() {
+        popup.toggleClass('show');
+    });
+
+    // Function to load a new channel
+    function loadChannel(streamUrl) {
+        if (Hls.isSupported()) {
+            const hls = new Hls();
+            hls.loadSource(streamUrl);
+            hls.attachMedia(videoElement);
+        } else {
+            videoElement.src = streamUrl;  // Fallback for Safari
+        }
+    
+    }
+});
+</script>
+    <script>
+    document.addEventListener('keydown', function(event) {
+    // Disable F12 (Developer Tools)
+    if (event.key === 'F12') {
+      event.preventDefault();
+    }
+    document.addEventListener('keydown', function(event) {
+    // Disable Ctrl+U
+    if (event.ctrlKey && event.key === 'u') {
+      event.preventDefault();
+    }
+    
+});
+    // Disable Ctrl+Shift+I (Developer Tools)
+    if (event.ctrlKey && event.shiftKey && event.key === 'I') {
+      event.preventDefault();
+    }
+
+});
+  </script>
+  <script>
+  if (typeof console != "undefined") {
+    console.log = function() {}; // Disable console.log
+    console.debug = function() {}; // Disable console.debug
+
+  }
+</script>
